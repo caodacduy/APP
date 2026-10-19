@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Check, Clock, ChevronRight } from 'lucide-react-native';
 import { Assignment } from '../types/student';
-import { StatusBadge } from './StatusBadge';
 
 interface AssignmentCardProps {
   assignment: Assignment;
@@ -17,19 +16,12 @@ export const AssignmentCard: React.FC<AssignmentCardProps> = ({
 }) => {
   return (
     <TouchableOpacity
-      style={[
-        styles.card,
-        assignment.isCompleted && styles.completedCard,
-      ]}
+      style={[styles.card, assignment.isCompleted && styles.completedCard]}
       onPress={onPress}
-      activeOpacity={0.75}
+      activeOpacity={0.7}
     >
-      {/* Checkbox button */}
       <TouchableOpacity
-        style={[
-          styles.checkbox,
-          assignment.isCompleted && styles.checkedCheckbox,
-        ]}
+        style={[styles.checkbox, assignment.isCompleted && styles.checkedCheckbox]}
         onPress={onToggleStatus}
         activeOpacity={0.7}
         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -37,44 +29,42 @@ export const AssignmentCard: React.FC<AssignmentCardProps> = ({
         {assignment.isCompleted && <Check size={14} color="#FFFFFF" strokeWidth={3} />}
       </TouchableOpacity>
 
-      <View style={styles.body}>
-        <View style={styles.topInfo}>
-          <View style={styles.courseBadge}>
-            <Text style={styles.courseBadgeText}>{assignment.courseCode}</Text>
+      <View style={styles.content}>
+        <View style={styles.topRow}>
+          <Text style={styles.courseName} numberOfLines={1}>
+            {assignment.courseName}
+          </Text>
+          <View
+            style={[
+              styles.badge,
+              assignment.isCompleted ? styles.badgeSuccess : styles.badgeWarning,
+            ]}
+          >
+            <Text
+              style={[
+                styles.badgeText,
+                assignment.isCompleted ? styles.badgeSuccessText : styles.badgeWarningText,
+              ]}
+            >
+              {assignment.isCompleted ? 'Hoàn thành' : 'Chưa hoàn thành'}
+            </Text>
           </View>
-          <StatusBadge isCompleted={assignment.isCompleted} size="sm" />
         </View>
 
         <Text
-          style={[
-            styles.title,
-            assignment.isCompleted && styles.completedTitle,
-          ]}
+          style={[styles.title, assignment.isCompleted && styles.completedTitle]}
           numberOfLines={2}
         >
           {assignment.title}
         </Text>
 
-        <Text style={styles.courseName} numberOfLines={1}>
-          {assignment.courseName}
-        </Text>
-
-        <View style={styles.deadlineRow}>
-          <Clock size={13} color={assignment.isCompleted ? '#94A3B8' : '#EF4444'} />
-          <Text
-            style={[
-              styles.deadlineText,
-              !assignment.isCompleted && styles.deadlineAlert,
-            ]}
-          >
-            Hạn: {assignment.dueDateFormatted}
-          </Text>
+        <View style={styles.metaRow}>
+          <Clock size={12} color="#64748B" />
+          <Text style={styles.metaText}>Hạn nộp: {assignment.dueDateFormatted}</Text>
         </View>
       </View>
 
-      <View style={styles.arrow}>
-        <ChevronRight size={18} color="#94A3B8" />
-      </View>
+      <ChevronRight size={18} color="#94A3B8" />
     </TouchableOpacity>
   );
 };
@@ -84,26 +74,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    marginBottom: 12,
+    borderRadius: 12,
+    marginBottom: 10,
     padding: 14,
     borderWidth: 1,
     borderColor: '#E2E8F0',
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    elevation: 2,
+    elevation: 1,
   },
   completedCard: {
     backgroundColor: '#F8FAFC',
-    borderColor: '#E2E8F0',
-    opacity: 0.88,
+    opacity: 0.85,
   },
   checkbox: {
-    width: 26,
-    height: 26,
-    borderRadius: 8,
+    width: 22,
+    height: 22,
+    borderRadius: 6,
     borderWidth: 2,
     borderColor: '#CBD5E1',
     justifyContent: 'center',
@@ -115,57 +100,65 @@ const styles = StyleSheet.create({
     backgroundColor: '#10B981',
     borderColor: '#10B981',
   },
-  body: {
+  content: {
     flex: 1,
+    marginRight: 8,
   },
-  topInfo: {
+  topRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 6,
+    marginBottom: 4,
   },
-  courseBadge: {
-    backgroundColor: '#F1F5F9',
+  courseName: {
+    fontSize: 12,
+    color: '#64748B',
+    fontWeight: '500',
+    flex: 1,
+    marginRight: 6,
+  },
+  badge: {
+  },
+  badgeText: {
+    fontSize: 10.5,
+    fontWeight: '700',
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: 6,
   },
-  courseBadgeText: {
-    fontSize: 11,
+  badgeWarning: {
+    backgroundColor: '#FEF3C7',
+  },
+  badgeWarningText: {
+    color: '#D97706',
+    fontSize: 10.5,
     fontWeight: '700',
-    color: '#475569',
+  },
+  badgeSuccess: {
+    backgroundColor: '#ECFDF5',
+  },
+  badgeSuccessText: {
+    color: '#059669',
+    fontSize: 10.5,
+    fontWeight: '700',
   },
   title: {
-    fontSize: 14.5,
+    fontSize: 14,
     fontWeight: '700',
     color: '#0F172A',
-    marginBottom: 3,
-    lineHeight: 19,
+    marginBottom: 4,
   },
   completedTitle: {
     textDecorationLine: 'line-through',
     color: '#64748B',
   },
-  courseName: {
-    fontSize: 12,
-    color: '#64748B',
-    marginBottom: 6,
-  },
-  deadlineRow: {
+  metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
   },
-  deadlineText: {
+  metaText: {
     fontSize: 11.5,
     color: '#64748B',
-    fontWeight: '500',
-  },
-  deadlineAlert: {
-    color: '#DC2626',
-    fontWeight: '600',
-  },
-  arrow: {
-    marginLeft: 8,
   },
 });
