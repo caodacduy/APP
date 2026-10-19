@@ -20,8 +20,10 @@ import { HourlyForecast } from './src/components/HourlyForecast';
 import { DailyForecast } from './src/components/DailyForecast';
 import { WeatherMetrics } from './src/components/WeatherMetrics';
 import { CitySearchModal } from './src/components/CitySearchModal';
+import SimpleWeatherScreen from './src/components';
 
-function WeatherMain() {
+// Màn hình thời tiết đầy đủ trước đó (tạm ngắt theo yêu cầu)
+export function WeatherMain() {
   const insets = useSafeAreaInsets();
   const [currentLocation, setCurrentLocation] = useState<LocationItem>(DEFAULT_LOCATION);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -179,7 +181,9 @@ function WeatherMain() {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <WeatherMain />
+      {/* Tạm ngắt màn hình thời tiết cũ theo yêu cầu: */}
+      {/* <WeatherMain /> */}
+      <SimpleWeatherScreen />
     </SafeAreaProvider>
   );
 }
