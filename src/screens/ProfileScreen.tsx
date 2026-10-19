@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   StyleSheet,
   Text,
@@ -29,6 +30,7 @@ import { RootStackNavigationProp } from '../types/navigation';
 export const ProfileScreen: React.FC = () => {
   const { student, updateProfile, resetAllData } = useApp();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const insets = useSafeAreaInsets();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editName, setEditName] = useState(student.fullName);
@@ -89,7 +91,7 @@ export const ProfileScreen: React.FC = () => {
       <StatusBar barStyle="dark-content" />
 
       {/* Header Info */}
-      <View style={styles.headerCard}>
+      <View style={[styles.headerCard, { paddingTop: Math.max(insets.top, 20) }]}>
         <View style={styles.avatarLarge}>
           <Text style={styles.avatarLargeText}>
             {student.fullName

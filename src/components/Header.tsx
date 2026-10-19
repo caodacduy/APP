@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { ArrowLeft } from 'lucide-react-native';
 
@@ -15,8 +16,9 @@ export const Header: React.FC<HeaderProps> = ({
   onBack,
   rightComponent,
 }) => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: Math.max(insets.top, 12) }]}>
       <View style={styles.leftSection}>
         {onBack && (
           <TouchableOpacity

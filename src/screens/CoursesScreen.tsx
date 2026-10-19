@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   StyleSheet,
   Text,
@@ -17,6 +18,7 @@ import { Course } from '../types/student';
 export const CoursesScreen: React.FC = () => {
   const { courses } = useApp();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const insets = useSafeAreaInsets();
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredCourses = useMemo(() => {
@@ -38,7 +40,7 @@ export const CoursesScreen: React.FC = () => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      <View style={styles.topBar}>
+      <View style={[styles.topBar, { paddingTop: Math.max(insets.top, 16) }]}>
         <View style={styles.titleRow}>
           <Text style={styles.screenTitle}>Môn học</Text>
           <View style={styles.countBadge}>

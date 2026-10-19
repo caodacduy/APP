@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   StyleSheet,
   Text,
@@ -25,6 +26,7 @@ import { Course, Assignment } from '../types/student';
 export const HomeScreen: React.FC = () => {
   const { student, courses, assignments, toggleAssignment } = useApp();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const insets = useSafeAreaInsets();
 
   const stats = useMemo(() => {
     const pendingAssignments = assignments.filter((a) => !a.isCompleted).length;
@@ -52,7 +54,7 @@ export const HomeScreen: React.FC = () => {
       <StatusBar barStyle="dark-content" />
 
       {/* Greeting Banner */}
-      <View style={styles.headerBanner}>
+      <View style={[styles.headerBanner, { paddingTop: Math.max(insets.top, 16) }]}>
         <View style={styles.studentInfoRow}>
           <View style={styles.avatarCircle}>
             <Text style={styles.avatarText}>

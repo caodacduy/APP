@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   StyleSheet,
   Text,
@@ -19,6 +20,7 @@ type FilterType = 'all' | 'pending' | 'completed';
 export const AssignmentsScreen: React.FC = () => {
   const { assignments, toggleAssignment } = useApp();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const insets = useSafeAreaInsets();
   const [filter, setFilter] = useState<FilterType>('all');
 
   const filteredAssignments = useMemo(() => {
@@ -42,7 +44,7 @@ export const AssignmentsScreen: React.FC = () => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      <View style={styles.topHeader}>
+      <View style={[styles.topHeader, { paddingTop: Math.max(insets.top, 16) }]}>
         <View style={styles.titleRow}>
           <Text style={styles.title}>Danh sách bài tập</Text>
           <View style={styles.pendingBadge}>

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   StyleSheet,
   Text,
@@ -29,6 +30,7 @@ const DAYS_OF_WEEK = [
 export const ScheduleScreen: React.FC = () => {
   const { schedule } = useApp();
   const navigation = useNavigation<RootStackNavigationProp>();
+  const insets = useSafeAreaInsets();
   const [selectedDay, setSelectedDay] = useState<number>(0);
 
   const filteredSchedule = useMemo(() => {
@@ -44,7 +46,7 @@ export const ScheduleScreen: React.FC = () => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
-      <View style={styles.topHeader}>
+      <View style={[styles.topHeader, { paddingTop: Math.max(insets.top, 16) }]}>
         <View style={styles.titleRow}>
           <Text style={styles.title}>Thời khóa biểu</Text>
           <View style={styles.weekBadge}>
